@@ -1,16 +1,17 @@
 #!/usr/bin/python
-import urllib.request, sys,subprocess
+import urllib.request, sys
 
 def main():
     url=sys.argv[1]
-    content_file="file.txt"
+    content_file="page.html"
     download(url,content_file)
 
 def download(url,content_file):
-    html=urllib.request.urlopen(url)
-    read_page=html.read()
+    req = urllib.request.Request(url)
+    page = urllib.request.urlopen(req)
+    src = page.read().decode('utf8')
     f=open(content_file, "w")
-    f.write(str(read_page))
+    f.write(str(src))
     f.close()
 
 main()
