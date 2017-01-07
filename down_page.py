@@ -9,7 +9,10 @@ def main():
 def download(url,content_file):
     req = urllib.request.Request(url)
     page = urllib.request.urlopen(req)
-    src = page.read().decode('utf8')
+    try:
+        src = page.read().decode('utf8')
+    except UnicodeDecodeError:
+        src = page.read()
     f=open(content_file, "w")
     f.write(str(src))
     f.close()
