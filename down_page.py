@@ -8,7 +8,11 @@ def main():
         print("""Zla syntax! Spravna: python3 down_page.py "http://www.blahblah.com" """)
         sys.exit()
     content_file="page.html"
-    download(url,content_file)
+    try:
+        download(url,content_file)
+    except:
+        print("Zadany parameter nie je platna adresa web stranky!")
+        print("""Zla syntax! Spravna: python3 down_page.py "http://www.blahblah.com" """)
 
 def download(url,content_file):
     req = urllib.request.Request(url)
