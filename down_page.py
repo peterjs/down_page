@@ -2,7 +2,11 @@
 import urllib.request, sys
 
 def main():
-    url=sys.argv[1]
+    try:
+        url=sys.argv[1]
+    except IndexError:
+        print("""Zla syntax! Spravna: python3 down_page.py "http://www.blahblah.com" """)
+        sys.exit()
     content_file="page.html"
     download(url,content_file)
 
