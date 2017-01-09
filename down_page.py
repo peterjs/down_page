@@ -3,7 +3,7 @@ import urllib.request, sys, re
 
 def main():
     content_file="page.html"
-    directory="/home/ludo/down_page/"
+    directory=sys.argv[2]
     try:
         url=sys.argv[1]
     except IndexError:
