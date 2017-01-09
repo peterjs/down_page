@@ -34,12 +34,9 @@ def download_image(url,directory,src):
         url=src+image
         try:
             pic_name=directory+image[7:]  # OK
-            pic_file = open(pic_name, "wb")
-            pic=urllib.request.urlopen(url).read()
-            pic_file.write(pic)
-            #urllib.urlretrieve(url, pic_file)
-            #pic_file.write(urllib.requst.urlopen(image).read())
-            pic_file.close() 
+            pic=urllib.request.urlopen(url)
+            with open(pic_name, "wb") as local_file:
+                local_file.write(pic.read())
         except:
             print ('Error writing file ' + image)
 
