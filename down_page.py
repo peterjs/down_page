@@ -28,14 +28,17 @@ def download(url,content_file, directory):
     download_image(url,directory,src)
 
 def download_image(url,directory,src):    
-    images = re.findall(r'([-\w]+\.(?:jpg|gif|png))', url)
-    print(images)
+    images=re.findall('img .*?src="(.*?)"',src)
     images.sort()
     for image in images:
         url=src+image
         try:
-            pic_file = open(directory+image, "wb")
-            urllib.request.urlretrieve(url, pic_file)
+            pic_name=directory+image[7:]  # OK
+            pic_file = open(pic_name, "wb")
+            pic=urllib.request.urlopen(url).read()
+            pic_file.write(pic)
+            #urllib.urlretrieve(url, pic_file)
+            #pic_file.write(urllib.requst.urlopen(image).read())
             pic_file.close() 
         except:
             print ('Error writing file ' + image)
