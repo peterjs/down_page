@@ -14,13 +14,18 @@ def main():
     except:
         print("""Syntax: python3 down_page.py "http://www.name_of_page.com" "local_directory" """)
 
-def download(url,content_file, directory):
+def read_page(url):
     req = urllib.request.Request(url)
     page = urllib.request.urlopen(req)
     try:
         src = page.read().decode('utf8')
+        return src
     except UnicodeDecodeError:
         src = page.read()
+        return src
+
+def download(url,content_file, directory):
+    src = read_page(url)
     try:
         write_page(src, content_file,directory)
     except:
