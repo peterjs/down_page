@@ -21,7 +21,10 @@ def download(url,content_file, directory):
         src = page.read().decode('utf8')
     except UnicodeDecodeError:
         src = page.read()
-    write_page(src, content_file,directory)
+    try:
+        write_page(src, content_file,directory)
+    except:
+        print("Page not downloaded.")
 
 def write_page(src, content_file,directory):
     with open(content_file) as local_page:
