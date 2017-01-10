@@ -25,11 +25,14 @@ def download(url,content_file, directory):
         write_page(src, content_file,directory)
     except:
         print("Page not downloaded.")
+    try:
+        download_image(url,directory,src)
+    except:
+        print("download_image() error.")
 
 def write_page(src, content_file,directory):
     with open(content_file) as local_page:
         local_page.write(str(src))
-    download_image(url,directory,src)
 
 def download_image(url,directory,page):    
     images=re.findall('img .*?src="(.*?)"',page)
@@ -39,7 +42,7 @@ def download_image(url,directory,page):
         try:
             pic_name=directory+image[7:] 
             with open(pic_name, "wb") as local_file:
-                urllib.request.retrieve(url, local_file)
+                urllib.retrieve(url, local_file)
         except:
             print ('Error writing file ' + image)
 
