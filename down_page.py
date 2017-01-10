@@ -7,13 +7,12 @@ def main():
     try:
         url=sys.argv[1]
     except IndexError:
-        print("""Zla syntax! Spravna: python3 down_page.py "http://www.blahblah.com" """)
+        print("""Syntax: python3 down_page.py "http://www.name_of_page.com" "local_directory" """)
         sys.exit()
     try:
         download(url,content_file, directory)
     except:
-        print("Zadany parameter nie je platna adresa web stranky!")
-        print("""Zla syntax! Spravna: python3 down_page.py "http://www.blahblah.com" """)
+        print("""Syntax: python3 down_page.py "http://www.name_of_page.com" "local_directory" """)
 
 def download(url,content_file, directory):
     req = urllib.request.Request(url)
