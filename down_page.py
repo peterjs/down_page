@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import urllib.request, sys, re,os
+import urllib.request, sys, re
 
 def main():
     content_file="page.html"
@@ -14,40 +14,31 @@ def main():
     except:
         print("""Syntax: python3 down_page.py "http://www.name_of_page.com" "local_directory" """)
 
-def read_page(url):
+def download(url,content_file, directory):
     req = urllib.request.Request(url)
     page = urllib.request.urlopen(req)
     try:
         src = page.read().decode('utf8')
-        return src
     except UnicodeDecodeError:
         src = page.read()
-        return src
-
-def download(url,content_file, directory):
-    src = read_page(url)
+    dz=open(content_file,"w")
+    dz.write(src)
+    dz.close()
     try:
-        write_page(src, content_file,directory)
-    except:
-        print("Page not downloaded.")
-    try:
-        download_image(url,directory,src)
+        download_image(url,directory,src)  # fcia prebehne
     except:
         print("download_image() error.")
-
-def write_page(src, content_file,directory):
-    with open(content_file) as local_page:
-        local_page.write(str(src))
 
 def download_image(url,directory,page):    
     images=re.findall('img .*?src="(.*?)"',page)
     images.sort()
     for image in images:
         url=page+image
+        pic_name=directory+image[7:] 
         try:
-            pic_name=directory+image[7:] 
-            with open(pic_name, "wb") as local_file:
-                urllib.retrieve(url, local_file)
+            data=urllib.urlretrieve(url, local_file)
+            with open(pic_name, "wb") as local_file:  # niekde v tomto je zrada
+                local_file.write(data)
         except:
             print ('Error writing file ' + image)
 
