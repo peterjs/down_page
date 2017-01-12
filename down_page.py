@@ -9,10 +9,7 @@ def main():
     except IndexError as e:
         print(e,"""Syntax: python3 down_page.py "http://www.name_of_page.com" "local_directory" """)
         sys.exit()
-    try:
-        download(url,content_file, directory)
-    except:
-        print("""Syntax: python3 down_page.py "http://www.name_of_page.com" "local_directory" """)
+    download(url,content_file, directory)
 
 def download(url,content_file, directory):
     req = urllib.request.Request(url)
@@ -23,14 +20,10 @@ def download(url,content_file, directory):
         src = page.read()
     with open(content_file,"w") as local_page:
         local_page.write(src)
-#    try:
     download_image(url,directory,src)  # fcia prebehne
-#    except:
-#        print("download_image() error.")
 
 def download_image(url,directory,page):    
-    print(images=re.findall('img .*?src="(.*?)"',page))
-    print(images.sort())
+    images=re.findall('img .*?src="(.*?)"',page)
     for image in images:
         url=page+image
         pic_name=directory+image[7:] 
