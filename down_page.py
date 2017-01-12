@@ -21,17 +21,16 @@ def download(url,content_file, directory):
         src = page.read().decode('utf8')
     except UnicodeDecodeError:
         src = page.read()
-    dz=open(content_file,"w")
-    dz.write(src)
-    dz.close()
-    try:
-        download_image(url,directory,src)  # fcia prebehne
-    except:
-        print("download_image() error.")
+    with open(content_file,"w") as local_page:
+        local_page.write(src)
+#    try:
+    download_image(url,directory,src)  # fcia prebehne
+#    except:
+#        print("download_image() error.")
 
 def download_image(url,directory,page):    
-    images=re.findall('img .*?src="(.*?)"',page)
-    images.sort()
+    print(images=re.findall('img .*?src="(.*?)"',page))
+    print(images.sort())
     for image in images:
         url=page+image
         pic_name=directory+image[7:] 
