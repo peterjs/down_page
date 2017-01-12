@@ -11,7 +11,7 @@ def main():
         sys.exit()
     download(url,content_file, directory)
 
-def download(url,content_file, directory):
+def download(url,content_file, directory):  # OK
     req = urllib.request.Request(url)
     page = urllib.request.urlopen(req)
     try:
@@ -23,15 +23,13 @@ def download(url,content_file, directory):
     download_image(url,directory,src)  # fcia prebehne
 
 def download_image(url,directory,page):    
-    images=re.findall('img .*?src="(.*?)"',page)
+    images=re.findall('img .*?src="(.*?)"',page)  # OK
     for image in images:
         url=page+image
         pic_name=directory+image[7:] 
-        try:
-            data=urllib.urlretrieve(url, local_file)
-            with open(pic_name, "wb") as local_file:  # niekde v tomto je zrada
-                local_file.write(data)
-        except:
-            print ('Error writing file ' + image)
+        print(pic_name)  # OK
+        with open(pic_name, "wb") as local_file:
+            print("ok")  # Wrong
+                #data=urllib.request.urlretrieve(url, local_file)
 
 main()
