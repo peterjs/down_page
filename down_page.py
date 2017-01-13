@@ -23,6 +23,7 @@ def download(url,content_file, directory):
         src = page.read()
     with open(content_file,"w") as local_page:
         local_page.write(src)
+    print("Stranka stiahnuta.")
     download_image(url,directory,src)
 
 def download_image(url,directory,page):    
