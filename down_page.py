@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import urllib.request, sys, re, os
+import urllib.request, sys, re, os, shutil
 
 def main():
     content_file="page.html"
@@ -28,9 +28,10 @@ def download_image(url,directory,page):
     for image in images:
         url=(image)
         stripped_image_path=image[7:]
-        pic_name=directory, stripped_image_path
+        pic_name=os.path.join(directory, stripped_image_path)
         print(pic_name)
-        #with open(obrazok, "wb") as local_file:
+        with open(pic_name, "wb") as local_file:
+            shutil.copy(url,local_file)
         #    print("ok")  # Wrong
         #    data=urllib.request.urlretrieve(url, local_file)
         #    print(data)
