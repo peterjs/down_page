@@ -3,38 +3,33 @@ import urllib.request, sys, re, os
 
 def main():
     try:
-        content_file="page.html"
-        directory=sys.argv[2]
-        try:
-            url=sys.argv[1]
-        except IndexError as e:
-            print(e,"""Syntax: python3 down_page.py "http://www.name_of_page.com" "local_directory" """)
-            sys.exit()
-        download(url,content_file, directory)
+        local_web_page="page.html"
+        web_page_url=sys.argv[1]
+        directory_to_download=sys.argv[2]
+        download(web_page_url, local_web_page, directory_to_download)
     except:
-           print("""Syntax: python3 down_page.py "http://www.name_of_page.com" "local_directory" """)
+           print("""Syntax: python3 down_page.py "http://www.name_of_page.com" "local_directory_to_download" """)
 
-def download(url,content_file, directory):
-    req = urllib.request.Request(url)
-    page = urllib.request.urlopen(req)
+def download(web_page_url, local_web_page, directory_to_download):
+    request_to_page = urllib.request.Request(web_page_url)
+    web_page = urllib.request.urlopen(request_to_page)
     try:
-        src = page.read().decode('utf8')
+        data_from_web_page= web_page.read().decode('utf8')
     except UnicodeDecodeError:
-        src = page.read()
-    with open(content_file,"w") as local_page:
-        local_page.write(src)
+        data_from_web_page = web_page.read()
+    with open(local_web_page,"w") as local_page:
+        local_page.write(data_from_web_page)
     print("Stranka stiahnuta.")
-    download_image(url,directory,src)
+    download_images_from_web_page(directory_to_download, data_from_web_page)
 
-def download_image(url,directory,page):    
-    images=re.findall('img .*?src="(.*?)"',page)
+def download_images_from_web_page(directory_to_download, data_from_web_page):    
+    images_on_web_page=re.findall('img .*?src="(.*?)"',data_from_web_page)
     print("Stahujem obrazky. Cakajte prosim.")
-    for image in images:
-        url=(image)
-        stripped_image_path=image[7:]
-        pic_name=os.path.join(directory,os.path.basename(image) )
+    for image in images_on_web_page:
+        web_picture_url=image
+        local_picture=os.path.join(directory_to_download,os.path.basename(image))
         try:
-            data=urllib.request.urlretrieve(url, pic_name)
+            urllib.request.urlretrieve(web_picture_url, local_picture)
         except (ValueError, urllib.error.URLError):
             pass
     print("Stahovanie dokoncene.")
