@@ -29,6 +29,9 @@ def download_image(url,directory,page):
         stripped_image_path=image[7:]
         pic_name=os.path.join(directory,os.path.basename(image) )
         print(pic_name)
-        data=urllib.request.urlretrieve(url, pic_name)
+        try:
+            data=urllib.request.urlretrieve(url, pic_name)
+        except (ValueError, urllib.error.URLError):
+            print("Nepodporovane.")
 
 main()
