@@ -16,11 +16,9 @@ def download_web_page_data(web_page_url, local_web_page, directory_to_download):
     request_to_page = urllib.request.Request(web_page_url)
     web_page = urllib.request.urlopen(request_to_page)
     try:
-        data_from_web_page= web_page.read().decode('utf8')
-        return data_from_web_page
+        return web_page.read().decode('utf8')
     except UnicodeDecodeError:
-        data_from_web_page = web_page.read()
-        return data_from_web_page
+        return web_page.read()
 
 def write_web_page_content_to_local_file(data_from_web_page, local_web_page):
     with open(local_web_page,"w") as local_page:
