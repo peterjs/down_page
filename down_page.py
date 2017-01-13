@@ -26,10 +26,9 @@ def download_images_from_web_page(directory_to_download, data_from_web_page):
     images_on_web_page=re.findall('img .*?src="(.*?)"',data_from_web_page)
     print("Stahujem obrazky. Cakajte prosim.")
     for image in images_on_web_page:
-        web_picture_url=image
         local_picture=os.path.join(directory_to_download,os.path.basename(image))
         try:
-            urllib.request.urlretrieve(web_picture_url, local_picture)
+            urllib.request.urlretrieve(image, local_picture)
         except (ValueError, urllib.error.URLError):
             pass
     print("Stahovanie dokoncene.")
