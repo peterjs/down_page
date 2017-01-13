@@ -2,14 +2,17 @@
 import urllib.request, sys, re, os
 
 def main():
-    content_file="page.html"
-    directory=sys.argv[2]
     try:
-        url=sys.argv[1]
-    except IndexError as e:
-        print(e,"""Syntax: python3 down_page.py "http://www.name_of_page.com" "local_directory" """)
-        sys.exit()
-    download(url,content_file, directory)
+        content_file="page.html"
+        directory=sys.argv[2]
+        try:
+            url=sys.argv[1]
+        except IndexError as e:
+            print(e,"""Syntax: python3 down_page.py "http://www.name_of_page.com" "local_directory" """)
+            sys.exit()
+        download(url,content_file, directory)
+    except:
+           print("""Syntax: python3 down_page.py "http://www.name_of_page.com" "local_directory" """)
 
 def download(url,content_file, directory):  # OK
     req = urllib.request.Request(url)
