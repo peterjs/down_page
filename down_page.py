@@ -29,8 +29,6 @@ def download_image(url,directory,page):
         stripped_image_path=image[7:]
         pic_name=os.path.join(directory,os.path.basename(image) )
         print(pic_name)
-        with open(pic_name, "wb") as local_file:
-        #    data=urllib.request.urlretrieve(url, local_file)
-        #    print(data)
+        data=urllib.request.urlretrieve(url, pic_name)
 
 main()
