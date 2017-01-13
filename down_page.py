@@ -1,9 +1,10 @@
 #!/usr/bin/python
-import urllib.request, sys, re
+import urllib.request, sys, re, os
 
 def main():
     content_file="page.html"
-    directory=sys.argv[2]
+    #directory=sys.argv[2]
+    directory="/home/"
     try:
         url=sys.argv[1]
     except IndexError as e:
@@ -25,11 +26,13 @@ def download(url,content_file, directory):  # OK
 def download_image(url,directory,page):    
     images=re.findall('img .*?src="(.*?)"',page)  # OK
     for image in images:
-        url=page+image
-        pic_name=directory+image[7:] 
-        print(pic_name)  # OK
-        with open(pic_name, "wb") as local_file:
-            print("ok")  # Wrong
-                #data=urllib.request.urlretrieve(url, local_file)
+        url=(image)
+        stripped_image_path=image[7:]
+        pic_name=directory, stripped_image_path
+        print(pic_name)
+        #with open(obrazok, "wb") as local_file:
+        #    print("ok")  # Wrong
+        #    data=urllib.request.urlretrieve(url, local_file)
+        #    print(data)
 
 main()
