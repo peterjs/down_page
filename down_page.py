@@ -27,6 +27,7 @@ def download(url,content_file, directory):  # OK
 
 def download_image(url,directory,page):    
     images=re.findall('img .*?src="(.*?)"',page)  # OK
+    print("Stahujem obrazky. Cakajte prosim.")
     for image in images:
         url=(image)
         stripped_image_path=image[7:]
@@ -34,6 +35,6 @@ def download_image(url,directory,page):
         try:
             data=urllib.request.urlretrieve(url, pic_name)
         except (ValueError, urllib.error.URLError):
-            print("Nepodporovane.")
+            pass
 
 main()
