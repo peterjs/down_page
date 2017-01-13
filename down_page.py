@@ -6,13 +6,13 @@ def main():
         local_web_page="page.html"
         web_page_url=sys.argv[1]
         directory_to_download=sys.argv[2]
-        data_from_web_page = download_web_page_data(web_page_url, local_web_page, directory_to_download)
+        data_from_web_page = download_web_page_data(web_page_url)
         write_web_page_content_to_local_file(data_from_web_page, local_web_page)
         download_images_from_web_page(directory_to_download, data_from_web_page)
     except:
            print("""Syntax: python3 down_page.py "http://www.name_of_page.com" "local_directory_to_download" """)
 
-def download_web_page_data(web_page_url, local_web_page, directory_to_download):
+def download_web_page_data(web_page_url):
     request_to_page = urllib.request.Request(web_page_url)
     web_page = urllib.request.urlopen(request_to_page)
     try:
