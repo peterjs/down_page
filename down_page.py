@@ -14,8 +14,7 @@ def main():
 
 def open_web_page(url):
     request_to_page = urllib.request.Request(url)
-    page = urllib.request.urlopen(request_to_page)
-    return page
+    return urllib.request.urlopen(request_to_page)
 
 def download_web_page_data(url):
     content= open_web_page(url) 
