@@ -12,9 +12,13 @@ def main():
     except:
            print("""Syntax: python3 down_page.py "http://www.name_of_page.com" "local_directory_to_download" """)
 
-def download_web_page_data(web_page_url):
+def open_web_page(web_page_url):
     request_to_page = urllib.request.Request(web_page_url)
-    web_page = urllib.request.urlopen(request_to_page)
+    page = urllib.request.urlopen(request_to_page)
+    return page
+
+def download_web_page_data(web_page_url):
+    web_page = open_web_page(web_page_url) 
     try:
         return web_page.read().decode('utf8')
     except UnicodeDecodeError:
