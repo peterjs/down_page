@@ -34,11 +34,14 @@ def find_images_on_page(data):
     img=re.findall('img .*?src="(.*?)"',data)
     return img
 
+def join_path(directory, output_file):
+    return os.path.join(directory,os.path.basename(output_file))
+
 def download_images_from_web_page(directory, data_from_web_page):    
     images=find_images_on_page(data_from_web_page)
     print("Stahujem obrazky. Cakajte prosim.")
     for image in images:
-        picture_name=os.path.join(directory,os.path.basename(image))
+        picture_name=join_path(directory, image)
         try:
             urllib.request.urlretrieve(image, picture_name)
         except (ValueError, urllib.error.URLError):
