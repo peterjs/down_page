@@ -21,6 +21,7 @@ def download_web_page_data(web_page_url):
         return web_page.read()
 
 def write_web_page_content_to_local_file(data_from_web_page, local_web_page):
+    print("Stahujem stranku.")
     with open(local_web_page,"w") as local_page:
         local_page.write(data_from_web_page)
     print("Stranka stiahnuta.")
