@@ -6,12 +6,18 @@ def main():
         local_web_page="page.html"
         web_page_url=sys.argv[1]
         directory_to_download=sys.argv[2]
+		if os.path.isdir(directory_to_download) is not True:
+		    make_directory_for_download(directory_to_download)
         data_from_web_page = download_web_page_data(web_page_url)
         write_web_page_content_to_local_file(data_from_web_page, local_web_page)
         download_images_from_web_page(directory_to_download, data_from_web_page)
     except:
-           print("""Syntax: python3 down_page.py "http://www.name_of_page.com" "local_directory_to_download" """)
+           print(""Syntax: python3 down_page.py http://www.name_of_page.com local_directory_to_download "")
 
+def make_directory_for_download(directory):
+    os.mkdir(directory)
+    return
+		 
 def open_web_page(url):
     request_to_page = urllib.request.Request(url)
     return urllib.request.urlopen(request_to_page)
