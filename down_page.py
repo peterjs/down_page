@@ -51,7 +51,6 @@ def download_images_from_web_page(directory, data_from_web_page):
         try:
             dir=os.listdir(directory)  # kde to pouzit...
             for picture_name in dir:
-                print(picture_name)
                 if os.path.isfile(picture_name) is True:
                     picture_name=os.rename(picture_name, picture_name+"x")
             urllib.request.urlretrieve(image, picture_name)
