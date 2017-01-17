@@ -12,7 +12,10 @@ def main():
         write_web_page_content_to_local_file(data_from_web_page, local_web_page)
         download_images_from_web_page(directory_to_download, data_from_web_page)
     except:
+           print("""Syntax: python down_page.py http://www.name_of_page.com local_directory_to_download """)
            print("""Syntax: python3 down_page.py http://www.name_of_page.com local_directory_to_download """)
+           print("""Syntax: python.exe down_page.py http://www.name_of_page.com local_directory_to_download """)
+
 
 def make_directory_for_download(directory):
     os.mkdir(directory)
