@@ -49,6 +49,9 @@ def download_images_from_web_page(directory, data_from_web_page):
         picture_name=join_path(directory, image)
         try:
             urllib.request.urlretrieve(image, picture_name)
+            if os.path.exists(picture_name)==True:
+                os.rename(picture_name, ""+picture_name)
+        #       picture_name=picture_name+"duplicit"
         except (ValueError, urllib.error.URLError):
             pass
     print("Stahovanie dokoncene.")
