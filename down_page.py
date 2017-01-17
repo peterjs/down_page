@@ -16,7 +16,6 @@ def main():
 
 def make_directory_for_download(directory):
     os.mkdir(directory)
-    return
 		 
 def open_web_page(url):
     request_to_page = urllib.request.Request(url)
