@@ -16,7 +16,7 @@ def main():
         help_syntax()
 
 def local_web_page_name(directory, name):
-    return directory+"_"+name
+    return os.path.join(directory,directory+"_"+name)
 
 def help_syntax():
     print("""Syntax: python down_page.py http://www.name_of_page.com local_directory_to_download """)
