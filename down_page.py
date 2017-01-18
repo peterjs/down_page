@@ -12,7 +12,7 @@ def main():
         data_from_web_page = download_web_page_data(web_page_url)
         write_web_page_content_to_local_file(data_from_web_page, web_page_name)
         download_images_from_web_page(directory_to_download, data_from_web_page)
-    except:
+    except FileNotFoundError:
         help_syntax()
 
 def local_web_page_name(directory, name):
