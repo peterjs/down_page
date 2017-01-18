@@ -51,8 +51,13 @@ def join_path(directory, output_file):
     return os.path.join(directory,os.path.basename(output_file))
 
 def rename_picture(picture):
-    new_name=os.rename(picture, picture+"x")
-    return new_name
+    return os.rename(picture, picture+"x")
+
+def retrieve_image_from_web(image, name):
+    return urllib.request.urlretrieve(image, name)
+
+def find_duplicit_images():
+    return
 
 def download_images_from_web_page(directory, data_from_web_page):    
     images=find_images_on_page(data_from_web_page)
@@ -64,7 +69,7 @@ def download_images_from_web_page(directory, data_from_web_page):
             for picture_name in dir:
                 if os.path.isfile(picture_name) is True:
                     picture_name=rename_picture(picture_name)
-            urllib.request.urlretrieve(image, picture_name)
+            retrieve_image_from_web(image, picture_name)
         except (ValueError, urllib.error.URLError):
             pass
     print("Stahovanie dokoncene.")
