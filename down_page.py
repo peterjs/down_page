@@ -12,9 +12,12 @@ def main():
         write_web_page_content_to_local_file(data_from_web_page, local_web_page)
         download_images_from_web_page(directory_to_download, data_from_web_page)
     except:
-           print("""Syntax: python down_page.py http://www.name_of_page.com local_directory_to_download """)
-           print("""Syntax: python3 down_page.py http://www.name_of_page.com local_directory_to_download """)
-           print("""Syntax: python.exe down_page.py http://www.name_of_page.com local_directory_to_download """)
+        help_syntax()
+
+def help_syntax():
+    print("""Syntax: python down_page.py http://www.name_of_page.com local_directory_to_download """)
+    print("""Syntax: python3 down_page.py http://www.name_of_page.com local_directory_to_download """)
+    print("""Syntax: python.exe down_page.py http://www.name_of_page.com local_directory_to_download """)
 
 def make_directory_for_download(directory):
     os.mkdir(directory)
@@ -49,7 +52,7 @@ def download_images_from_web_page(directory, data_from_web_page):
     for image in images:
         picture_name=join_path(directory, image)
         try:
-            dir=os.listdir(directory)  # kde to pouzit...
+            dir=os.listdir(directory)
             for picture_name in dir:
                 if os.path.isfile(picture_name) is True:
                     picture_name=os.rename(picture_name, picture_name+"x")
