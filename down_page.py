@@ -51,7 +51,7 @@ def join_path(directory, output_file):
     return os.path.join(directory,os.path.basename(output_file))
 
 def rename_picture(picture):
-    return os.rename(picture, picture+"x")
+        return os.rename(picture, "x"+picture)
 
 def retrieve_image_from_web(image, name):
     return urllib.request.urlretrieve(image, name)
@@ -65,10 +65,8 @@ def download_images_from_web_page(directory, data_from_web_page):
     for image in images:
         picture_name=join_path(directory, image)
         try:
-            dir=os.listdir(directory)
-            for picture_name in dir:
-                if os.path.isfile(picture_name) is True:
-                    picture_name=rename_picture(picture_name)
+            if os.path.isfile(picture_name) is True:
+                picture_name=rename_picture(picture_name)
             retrieve_image_from_web(image, picture_name)
         except (ValueError, urllib.error.URLError):
             pass
