@@ -50,6 +50,10 @@ def find_images_on_page(data):
 def join_path(directory, output_file):
     return os.path.join(directory,os.path.basename(output_file))
 
+def rename_picture(picture):
+    new_name=os.rename(picture, picture+"x")
+    return new_name
+
 def download_images_from_web_page(directory, data_from_web_page):    
     images=find_images_on_page(data_from_web_page)
     print("Stahujem obrazky. Cakajte prosim.")
@@ -59,7 +63,7 @@ def download_images_from_web_page(directory, data_from_web_page):
             dir=os.listdir(directory)
             for picture_name in dir:
                 if os.path.isfile(picture_name) is True:
-                    picture_name=os.rename(picture_name, picture_name+"x")
+                    picture_name=rename_picture(picture_name)
             urllib.request.urlretrieve(image, picture_name)
         except (ValueError, urllib.error.URLError):
             pass
