@@ -47,14 +47,18 @@ def join_path(directory, output_file):
     path=os.path.normpath(output_file)
     return os.path.join(directory,output_file)
 
+def create_file_name(directory, picture):
+    name=join_path(directory, picture)
+    name=name.replace("/","_")
+    name=os.path.join(directory, name)
+    return name
+
 def download_images_from_web_page(directory, data_from_web_page,url):    
     images=find_images_on_page(data_from_web_page)
     print("Stahujem obrazky. Cakajte prosim.")
     for image in images:
         image=(url+image)
-        picture_name=join_path(directory, image)
-        picture_name=picture_name.replace("/","_")
-        picture_name=os.path.join(directory, picture_name)
+        picture_name=create_file_name(directory, image)
         try:
             urllib.request.urlretrieve(image, picture_name)
         except (ValueError, urllib.error.URLError):
