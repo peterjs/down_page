@@ -12,10 +12,12 @@ def main():
         write_web_page_content_to_local_file(data_from_web_page, local_web_page)
         download_images_from_web_page(directory_to_download, data_from_web_page,web_page_url)
     except:
-           print("""Syntax: python down_page.py http://www.name_of_page.com local_directory_to_download """)
-           print("""Syntax: python3 down_page.py http://www.name_of_page.com local_directory_to_download """)
-           print("""Syntax: python.exe down_page.py http://www.name_of_page.com local_directory_to_download """)
+           help_syntax()
 
+def help_syntax():
+    print("""Syntax: python down_page.py http://www.name_of_page.com local_directory_to_download """)
+    print("""Syntax: python3 down_page.py http://www.name_of_page.com local_directory_to_download """)
+    print("""Syntax: python.exe down_page.py http://www.name_of_page.com local_directory_to_download """)
 
 def make_directory_for_download(directory):
     os.mkdir(directory)
@@ -51,14 +53,10 @@ def download_images_from_web_page(directory, data_from_web_page,url):
     for image in images:
         image=(url+image)
         picture_name=join_path(directory, image)
-        print(picture_name)
         picture_name=picture_name.replace("/","_")
         picture_name=os.path.join(directory, picture_name)
         try:
             urllib.request.urlretrieve(image, picture_name)
-            if os.path.exists(picture_name)==True:
-                os.rename(picture_name, ""+picture_name)
-        #       picture_name=picture_name+"duplicit"
         except (ValueError, urllib.error.URLError):
             pass
     print("Stahovanie dokoncene.")
