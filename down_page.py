@@ -51,7 +51,9 @@ def download_images_from_web_page(directory, data_from_web_page,url):
     for image in images:
         image=(url+image)
         picture_name=join_path(directory, image)
+        print(picture_name)
         picture_name=picture_name.replace("/","_")
+        picture_name=os.path.join(directory, picture_name)
         try:
             urllib.request.urlretrieve(image, picture_name)
         except (ValueError, urllib.error.URLError):
