@@ -10,7 +10,7 @@ def main():
             make_directory_for_download(directory_to_download)
         data_from_web_page = download_web_page_data(web_page_url)
         write_web_page_content_to_local_file(data_from_web_page, local_web_page)
-        download_images_from_web_page(directory_to_download, data_from_web_page)
+        download_images_from_web_page(directory_to_download, data_from_web_page,web_page_url)
     except:
            print("""Syntax: python down_page.py http://www.name_of_page.com local_directory_to_download """)
            print("""Syntax: python3 down_page.py http://www.name_of_page.com local_directory_to_download """)
@@ -42,13 +42,18 @@ def find_images_on_page(data):
     return img
 
 def join_path(directory, output_file):
-    return os.path.join(directory,os.path.basename(output_file))
+    path=os.path.normpath(output_file)
+    return os.path.join(directory,output_file)
 
-def download_images_from_web_page(directory, data_from_web_page):    
+def download_images_from_web_page(directory, data_from_web_page,url):    
     images=find_images_on_page(data_from_web_page)
     print("Stahujem obrazky. Cakajte prosim.")
     for image in images:
+        image=(url+image)
         picture_name=join_path(directory, image)
+        print(picture_name)
+        picture_name=picture_name.replace("/","_")
+        picture_name=os.path.join(directory, picture_name)
         try:
             urllib.request.urlretrieve(image, picture_name)
             if os.path.exists(picture_name)==True:
