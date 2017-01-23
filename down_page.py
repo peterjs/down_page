@@ -50,7 +50,6 @@ def join_path(directory, output_file):
 def create_file_name(directory, picture):
     name=join_path(directory, picture)
     name=name.replace("/","")
-    name=name.replace(".","_")
     name=name.replace(":","")
     name=name.replace("~","")
     name=os.path.join(directory, name)
