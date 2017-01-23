@@ -63,7 +63,6 @@ def download_images_from_web_page(directory, data_from_web_page,url):
             image=image
         else:
              image=(url+image)
-        print(url)
         picture_name=create_file_name(directory, image)
         try:
             urllib.request.urlretrieve(image, picture_name)
