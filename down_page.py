@@ -59,7 +59,10 @@ def download_images_from_web_page(directory, data_from_web_page,url):
     images=find_images_on_page(data_from_web_page)
     print("Stahujem obrazky. Cakajte prosim.")
     for image in images:
-        #image=(url+image)
+        if "http" in image:
+            image=image
+        else:
+             image=(url+image)
         print(url)
         picture_name=create_file_name(directory, image)
         try:
