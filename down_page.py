@@ -9,7 +9,7 @@ def main():
         if os.path.isdir(directory_to_download) is not True:
             make_directory_for_download(directory_to_download)
         data_from_web_page = download_web_page_data(web_page_url)
-        write_web_page_content_to_local_file(data_from_web_page, local_web_page)
+        write_web_page_content_to_local_file(data_from_web_page, local_web_page,directory_to_download)
         download_images_from_web_page(directory_to_download, data_from_web_page,web_page_url)
     except:
            help_syntax()
@@ -33,9 +33,10 @@ def download_web_page_data(url):
     except UnicodeDecodeError:
         return content.read()
 
-def write_web_page_content_to_local_file(data, destination):
+def write_web_page_content_to_local_file(data, destination, directory):
     print("Stahujem stranku.")
-    with open( destination,"w") as local_file:
+    downloaded_file=os.path.join(directory,destination)
+    with open(downloaded_file,"w") as local_file:
         local_file.write(data)
     print("Stranka stiahnuta.")
 
