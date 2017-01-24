@@ -15,9 +15,9 @@ def main():
            help_syntax()
 
 def help_syntax():
-    print("""Syntax: python down_page.py http://www.name_of_page.com local_directory_to_download """)
-    print("""Syntax: python3 down_page.py http://www.name_of_page.com local_directory_to_download """)
-    print("""Syntax: python.exe down_page.py http://www.name_of_page.com local_directory_to_download """)
+    print("""Syntax (python 3.x) : python3 down_page.py http://www.name_of_page.com local_directory_to_download """)
+    print("""Syntax (Windows)    : python.exe down_page.py http://www.name_of_page.com local_directory_to_download """)
+    print("""Skript nefunguje s python 2.x""")
 
 def make_directory_for_download(directory):
     os.mkdir(directory)
@@ -51,8 +51,6 @@ def join_path(directory, output_file):
 def create_file_name(directory, picture):
     name=join_path(directory, picture)
     name=name.replace("/","")
-    name=name.replace(":","")
-    name=name.replace("~","")
     name=os.path.join(directory, name)
     return name
 
