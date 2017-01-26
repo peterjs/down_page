@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import urllib.request, sys, re, os
+import urllib.request, sys, re, os, base64
 
 def main():
     try:
@@ -61,13 +61,18 @@ def check_picture_url(url, picture):
         picture=(url+picture)
     return picture
 
+def base64_picture_download(picture_url):
+    picture=open(picture_url, "rb")
+    picture_read=picture_url.read()
+    picture_64_encode = base64.encodestring(picture_read)
+    return
+
 def download_images_from_web_page(directory, data_from_web_page,url):    
     try:
         images=find_images_on_page(data_from_web_page)
         print("Stahujem obrazky. Cakajte prosim.")
         for image in images:
             image = check_picture_url(url, image)
-            print(image)
             picture_name=create_file_name(directory, image)
             try:
                 urllib.request.urlretrieve(image, picture_name)
@@ -75,7 +80,6 @@ def download_images_from_web_page(directory, data_from_web_page,url):
                 pass
         print("Stahovanie dokoncene.")
     except :
-        print(image)
-        print("Vyskytla sa chyba pri stahovani obrazkov. Niektore obrazky sa nepodarilo stiahnut.")
+        base64_picture_download(image)
 
 main()
