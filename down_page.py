@@ -62,15 +62,20 @@ def check_picture_url(url, picture):
     return picture
 
 def download_images_from_web_page(directory, data_from_web_page,url):    
-    images=find_images_on_page(data_from_web_page)
-    print("Stahujem obrazky. Cakajte prosim.")
-    for image in images:
-        image = check_picture_url(url, image)
-        picture_name=create_file_name(directory, image)
-        try:
-            urllib.request.urlretrieve(image, picture_name)
-        except (ValueError, urllib.error.URLError):
-            pass
-    print("Stahovanie dokoncene.")
+    try:
+        images=find_images_on_page(data_from_web_page)
+        print("Stahujem obrazky. Cakajte prosim.")
+        for image in images:
+            image = check_picture_url(url, image)
+            print(image)
+            picture_name=create_file_name(directory, image)
+            try:
+                urllib.request.urlretrieve(image, picture_name)
+            except (ValueError, urllib.error.URLError):
+                pass
+        print("Stahovanie dokoncene.")
+    except :
+        print(image)
+        print("Vyskytla sa chyba pri stahovani obrazkov. Niektore obrazky sa nepodarilo stiahnut.")
 
 main()
