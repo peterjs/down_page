@@ -61,11 +61,13 @@ def check_picture_url(url, picture):
         picture=(url+picture)
     return picture
 
-def base64_picture_download(picture_url):
-    picture=open(picture_url, "rb")
+def base64_picture_download(picture_url, local_picture):
+    picture=urllib.request.urlopen(picture_url)
     picture_read=picture_url.read()
     picture_64_encode = base64.encodestring(picture_read)
-    return
+    picture_64_decode = base64.decodestring(picture_64_encode)
+    picture_result = open(local_picture, 'wb')
+    picture_result.write(picture_64_decode)
 
 def download_images_from_web_page(directory, data_from_web_page,url):    
     try:
@@ -75,11 +77,14 @@ def download_images_from_web_page(directory, data_from_web_page,url):
             image = check_picture_url(url, image)
             picture_name=create_file_name(directory, image)
             try:
-                urllib.request.urlretrieve(image, picture_name)
+                if "base64" in image:
+                    base64_picture_download(image, picture_name)
+                else:
+                    urllib.request.urlretrieve(image, picture_name)
             except (ValueError, urllib.error.URLError):
                 pass
         print("Stahovanie dokoncene.")
     except :
-        base64_picture_download(image)
+        print("Chyba pri stahovani obrazkov.")
 
 main()
