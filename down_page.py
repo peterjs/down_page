@@ -8,9 +8,11 @@ def main():
         directory_to_download=sys.argv[2]
         if os.path.isdir(directory_to_download) is not True:
             make_directory_for_download(directory_to_download)
-        data_from_web_page = download_web_page_data(web_page_url)
-        write_web_page_content_to_local_file(data_from_web_page, local_web_page,directory_to_download)
-        download_images_from_web_page(directory_to_download, data_from_web_page,web_page_url)
+            data_from_web_page = download_web_page_data(web_page_url)
+            write_web_page_content_to_local_file(data_from_web_page, local_web_page,directory_to_download)
+            download_images_from_web_page(directory_to_download, data_from_web_page,web_page_url)
+        else:
+            compare_web_page_content(web_page_url,directory_to_download,local_web_page)
     except:
            help_syntax()
 
@@ -18,6 +20,7 @@ def help_syntax():
     print("""Syntax (python 3.x) : python3 down_page.py http://www.name_of_page.com local_directory_to_download """)
     print("""Syntax (Windows)    : python.exe down_page.py http://www.name_of_page.com local_directory_to_download """)
     print("""Skript nefunguje s python 2.x""")
+    print("""Adresa webovej stranky musi zacinat s http:// alebo https://""")
 
 def make_directory_for_download(directory):
     os.mkdir(directory)
@@ -34,20 +37,25 @@ def download_web_page_data(url):
         return content.read()
 
 def write_web_page_content_to_local_file(data, destination, directory):
-    print("Stahujem stranku.")
+    print("Stahujem web stranku.")
     downloaded_file=os.path.join(directory,destination)
     with open(downloaded_file,"w") as local_file:
         local_file.write(data)
-    print("Stranka stiahnuta.")
+    print("Web stranka stiahnuta.")
 
 def compare_web_page_content(url,directory,destination):
-    actual_content=download_web_page_data(url)
+    print("Web stranka uz je stiahnuta. Porovnavam obsah web stranky s aktualnou online verziou.")
+    actual_content=download_web_page_data(url).rstrip('\n')
     local_content=os.path.join(directory,destination)
-    if local_content is not True:
-        print("Nie je s cim porovnavat, web stranka nie je stiahnuta.")
+    with open(local_content, "r") as local:
+        data=local.read().rstrip('\n')
+    if data == actual_content:
+        print("Ziadne zmeny. Obsah stiahnutej web stranky a jej online verzia sa zhoduju.")
     else:
-        print("Porovnavam obsah.")
-    return
+        print("Doslo k zmene. Stahujem aktualnu verziu web stranky.")
+        data_from_web_page = download_web_page_data(url)
+        write_web_page_content_to_local_file(data, destination, directory)
+        download_images_from_web_page(directory, data_from_web_page,url)
 
 def find_images_on_page(data):
     img=re.findall('img .*?src="(.*?)"',data)
@@ -94,6 +102,6 @@ def download_images_from_web_page(directory, data_from_web_page,url):
                 pass
         print("Stahovanie dokoncene.")
     except :
-        print("Chyba pri stahovani obrazkov.")
+        print("Nedefinovana chyba pri stahovani obrazkov.")
 
 main()
