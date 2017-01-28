@@ -40,6 +40,15 @@ def write_web_page_content_to_local_file(data, destination, directory):
         local_file.write(data)
     print("Stranka stiahnuta.")
 
+def compare_web_page_content(url,directory,destination):
+    actual_content=download_web_page_data(url)
+    local_content=os.path.join(directory,destination)
+    if local_content is not True:
+        print("Nie je s cim porovnavat, web stranka nie je stiahnuta.")
+    else:
+        print("Porovnavam obsah.")
+    return
+
 def find_images_on_page(data):
     img=re.findall('img .*?src="(.*?)"',data)
     return img
