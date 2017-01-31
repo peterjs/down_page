@@ -66,7 +66,7 @@ def compare_web_page_content(url,directory,destination):
         local_content=os.path.join(directory,destination)
         with open(local_content, "r") as local:
             data=local.read().rstrip('\n')
-        if data == actual_content:
+        if data is actual_content:
             print("Ziadne zmeny. Obsah stiahnutej web stranky a jej online verzia sa zhoduju.")
         else:
             print("Doslo k zmene.")
