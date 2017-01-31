@@ -23,43 +23,68 @@ def help_syntax():
     print("""Adresa webovej stranky musi zacinat s http:// alebo https://""")
 
 def make_directory_for_download(directory):
-    os.mkdir(directory)
+    try:
+        os.mkdir(directory)
+    except:
+        print("Nepodarilo sa vytvorit pozadovany adresar pre stiahnutie web stranky.")
+        sys.exit()
          
 def open_web_page(url):
-    request_to_page = urllib.request.Request(url)
-    return urllib.request.urlopen(request_to_page)
+    try:
+        request_to_page = urllib.request.Request(url)
+        return urllib.request.urlopen(request_to_page)
+    except:
+        print("Nepodarilo sa otvorit pozadovanu web stranku.")
+        sys.exit()
 
 def download_web_page_data(url):
-    content= open_web_page(url) 
     try:
-        return content.read().decode('utf8')
-    except UnicodeDecodeError:
-        return content.read()
+        content= open_web_page(url) 
+        try:
+            return content.read().decode('utf8')
+        except UnicodeDecodeError:
+            return content.read()
+    except:
+        print("Nie je mozne nacitat obsah web stranky.")
+        sys.exit()
 
 def write_web_page_content_to_local_file(data, destination, directory):
-    print("Stahujem web stranku.")
-    downloaded_file=os.path.join(directory,destination)
-    with open(downloaded_file,"w") as local_file:
-        local_file.write(data)
-    print("Web stranka stiahnuta.")
+    try:
+        print("Stahujem web stranku.")
+        downloaded_file=os.path.join(directory,destination)
+        with open(downloaded_file,"w") as local_file:
+            local_file.write(data)
+        print("Web stranka stiahnuta.")
+    except:
+        print("Vyskytla sa chyba pri stahovani web stranky.")
+        sys.exit()
 
 def compare_web_page_content(url,directory,destination):
-    print("Web stranka uz je stiahnuta. Porovnavam obsah web stranky s aktualnou online verziou.")
-    actual_content=download_web_page_data(url).rstrip('\n')
-    local_content=os.path.join(directory,destination)
-    with open(local_content, "r") as local:
-        data=local.read().rstrip('\n')
-    if data == actual_content:
-        print("Ziadne zmeny. Obsah stiahnutej web stranky a jej online verzia sa zhoduju.")
-    else:
-        print("Doslo k zmene. Stahujem aktualnu verziu web stranky.")
-        data_from_web_page = download_web_page_data(url)
-        write_web_page_content_to_local_file(data, destination, directory)
-        download_images_from_web_page(directory, data_from_web_page,url)
+    try:
+        print("Web stranka uz je stiahnuta. Porovnavam obsah web stranky s aktualnou online verziou.")
+        actual_content=download_web_page_data(url).rstrip('\n')
+        local_content=os.path.join(directory,destination)
+        with open(local_content, "r") as local:
+            data=local.read().rstrip('\n')
+        if data == actual_content:
+            print("Ziadne zmeny. Obsah stiahnutej web stranky a jej online verzia sa zhoduju.")
+        else:
+            print("Doslo k zmene.")
+            data_from_web_page = download_web_page_data(url)
+            write_web_page_content_to_local_file(data, destination, directory)
+            download_images_from_web_page(directory, data_from_web_page,url)
+    except:
+        print("Nepodarilo sa porovnat obsah stiahnutej web stranky s online verziou.")
+        sys.exit()
+
 
 def find_images_on_page(data):
-    img=re.findall('img .*?src="(.*?)"',data)
-    return img
+    try:
+        img=re.findall('img .*?src="(.*?)"',data)
+        return img
+    except:
+        print("Nepodarilo sa najst obrazky na zadanej web stranke.")
+        sys.exit()
 
 def join_path(directory, output_file):
     path=os.path.normpath(output_file)
@@ -100,7 +125,7 @@ def download_images_from_web_page(directory, data_from_web_page,url):
                     urllib.request.urlretrieve(image, picture_name)
             except (ValueError, urllib.error.URLError):
                 pass
-        print("Stahovanie dokoncene.")
+        print("Stahovanie obrazkov dokoncene.")
     except :
         print("Nedefinovana chyba pri stahovani obrazkov.")
 
