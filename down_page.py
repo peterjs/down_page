@@ -17,9 +17,9 @@ def main():
            help_syntax()
 
 def help_syntax():
-    print("""Syntax (python 3.x) : python3 down_page.py http://www.name_of_page.com local_directory_to_download """)
-    print("""Syntax (Windows)    : python.exe down_page.py http://www.name_of_page.com local_directory_to_download """)
-    print("""Skript nefunguje s python 2.x""")
+    print("""Syntax (GNU/Linux, OS X) : python down_page.py http://www.name_of_page.com local_directory_to_download """)
+    print("""Syntax (Windows)         : python.exe down_page.py http://www.name_of_page.com local_directory_to_download """)
+    print("""Skript vyzaduje nainstalovany python 3.x""")
     print("""Adresa webovej stranky musi zacinat s http:// alebo https://""")
 
 def make_directory_for_download(directory):
@@ -62,10 +62,10 @@ def write_web_page_content_to_local_file(data, destination, directory):
 def compare_web_page_content(url,directory,destination):
     try:
         print("Web stranka uz je stiahnuta. Porovnavam obsah web stranky s aktualnou online verziou.")
-        actual_content=download_web_page_data(url).rstrip('\n')
+        actual_content=download_web_page_data(url)
         local_content=os.path.join(directory,destination)
         with open(local_content, "r") as local:
-            data=local.read().rstrip('\n')
+            data=local.read()
         if data is actual_content:
             print("Ziadne zmeny. Obsah stiahnutej web stranky a jej online verzia sa zhoduju.")
         else:
@@ -76,7 +76,6 @@ def compare_web_page_content(url,directory,destination):
     except:
         print("Nepodarilo sa porovnat obsah stiahnutej web stranky s online verziou.")
         sys.exit()
-
 
 def find_images_on_page(data):
     try:
@@ -91,8 +90,7 @@ def join_path(directory, output_file):
     return os.path.join(directory,output_file)
 
 def create_file_name(directory, picture):
-    name=join_path(directory, picture)
-    name=name.replace("/","")
+    name=join_path(directory, picture).replace("/","")
     name=os.path.join(directory, name)
     return name
 
@@ -104,8 +102,7 @@ def check_picture_url(url, picture):
     return picture
 
 def base64_picture_download(picture_url, local_picture):
-    picture=urllib.request.urlopen(picture_url)
-    picture_read=picture_url.read()
+    picture_read=urllib.request.urlopen(picture_url).read()
     picture_64_encode = base64.encodestring(picture_read)
     picture_64_decode = base64.decodestring(picture_64_encode)
     picture_result = open(local_picture, 'wb')
