@@ -4,9 +4,7 @@ import urllib.request, sys, re, os, base64
 def main():
     try:
         local_web_page="page.html"
-        web_page_url=sys.argv[1]
-        if "http" not in web_page_url:
-            web_page_url = "http://"+web_page_url
+        web_page_url=check_correct_url(sys.argv[1])
         directory_to_download=sys.argv[2]
         if os.path.isdir(directory_to_download) is not True:
             make_directory_for_download(directory_to_download)
@@ -17,6 +15,11 @@ def main():
             compare_web_page_content(web_page_url,directory_to_download,local_web_page)
     except:
            help_syntax()
+
+def check_correct_url(url):
+    if "http" not in url:
+        url = "http://"+url
+        return url
 
 def help_syntax():
     print("""Syntax (GNU/Linux, OS X) : python down_page.py http://www.name_of_page.com local_directory_to_download """)
