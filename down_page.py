@@ -5,6 +5,8 @@ def main():
     try:
         local_web_page="page.html"
         web_page_url=sys.argv[1]
+        if "http" not in web_page_url:
+            web_page_url = "http://"+web_page_url
         directory_to_download=sys.argv[2]
         if os.path.isdir(directory_to_download) is not True:
             make_directory_for_download(directory_to_download)
@@ -20,7 +22,6 @@ def help_syntax():
     print("""Syntax (GNU/Linux, OS X) : python down_page.py http://www.name_of_page.com local_directory_to_download """)
     print("""Syntax (Windows)         : python.exe down_page.py http://www.name_of_page.com local_directory_to_download """)
     print("""Skript vyzaduje nainstalovany python 3.x""")
-    print("""Adresa webovej stranky musi zacinat s http:// alebo https://""")
 
 def make_directory_for_download(directory):
     try:
