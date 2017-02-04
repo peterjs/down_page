@@ -73,7 +73,7 @@ def compare_web_page_content(url,directory,destination):
         if data is actual_content:
             print("Ziadne zmeny. Obsah stiahnutej web stranky a jej online verzia sa zhoduju.")
         else:
-            print("Doslo k zmene.")
+            print("Doslo k zmene na web stranke.")
             data_from_web_page = download_web_page_data(url)
             write_web_page_content_to_local_file(data, destination, directory)
             download_images_from_web_page(directory, data_from_web_page,url)
@@ -109,8 +109,8 @@ def base64_picture_download(picture_url, local_picture):
     picture_read=urllib.request.urlopen(picture_url).read()
     picture_64_encode = base64.encodestring(picture_read)
     picture_64_decode = base64.decodestring(picture_64_encode)
-    picture_result = open(local_picture, 'wb')
-    picture_result.write(picture_64_decode)
+    with open(local_picture, 'wb') as picture_result:
+        picture_result.write(picture_64_decode)
 
 def download_images_from_web_page(directory, data_from_web_page,url):    
     try:
