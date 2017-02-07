@@ -19,7 +19,7 @@ def main():
 def check_correct_url(url):
     if "http" not in url:
         url = "http://"+url
-        return url
+    return url
 
 def help_syntax():
     print("""Syntax (GNU/Linux, OS X) : python down_page.py http://www.name_of_page.com local_directory_to_download """)
