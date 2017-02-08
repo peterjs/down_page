@@ -1,4 +1,4 @@
-import urllib.request, sys, re, os, base64
+import urllib.request, sys, re, os, base64, difflib
 
 def main():
     try:
@@ -58,6 +58,7 @@ def write_web_page_content_to_local_file(data, destination, directory):
         with open(downloaded_file,"w") as local_file:
             local_file.write(data)
         print("Web stranka stiahnuta.")
+        return local_file
     except:
         print("Vyskytla sa chyba pri stahovani web stranky.")
         sys.exit()
@@ -66,10 +67,12 @@ def compare_web_page_content(url,directory,destination):
     try:
         print("Web stranka uz je stiahnuta. Porovnavam obsah web stranky s aktualnou online verziou.")
         actual_content=download_web_page_data(url)
-        local_content=os.path.join(directory,destination)
+        local_content=os.path.join(directory, destination)  # OK
         with open(local_content, "r") as local:
             data=local.read()
-        if data is actual_content:
+        diff = difflib.context_diff(actual_content.splitlines(), data.splitlines())
+        diff = (''.join(diff))
+        if not diff:
             print("Ziadne zmeny. Obsah stiahnutej web stranky a jej online verzia sa zhoduju.")
         else:
             print("Doslo k zmene na web stranke.")
