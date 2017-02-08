@@ -1,4 +1,3 @@
-#!/usr/bin/python
 import urllib.request, sys, re, os, base64
 
 def main():
