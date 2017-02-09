@@ -67,7 +67,7 @@ def compare_web_page_content(url,directory,destination):
     try:
         print("Web stranka uz je stiahnuta. Porovnavam obsah web stranky s aktualnou online verziou.")
         actual_content=download_web_page_data(url)
-        local_content=os.path.join(directory, destination)  # OK
+        local_content=os.path.join(directory, destination)
         with open(local_content, "r") as local:
             data=local.read()
         diff = difflib.context_diff(actual_content.splitlines(), data.splitlines())
