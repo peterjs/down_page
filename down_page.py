@@ -76,9 +76,12 @@ def compare_web_page_content(url,directory,destination):
             print("Ziadne zmeny. Obsah stiahnutej web stranky a jej online verzia sa zhoduju.")
         else:
             print("Doslo k zmene na web stranke.")
-            data_from_web_page = download_web_page_data(url)
+            if "img" in diff:
+                print("Zmena obrazku.")
+            else:
+                print("Zmena obsahu.")
             write_web_page_content_to_local_file(data, destination, directory)
-            download_images_from_web_page(directory, data_from_web_page,url)
+            download_images_from_web_page(directory,actual_content,url)
     except:
         print("Nepodarilo sa porovnat obsah stiahnutej web stranky s online verziou.")
         sys.exit()
