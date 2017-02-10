@@ -2,14 +2,16 @@ import urllib.request, sys, re, os, base64, difflib, requests
 
 def main():
     try:
-        local_web_page="page.html"
-        web_page_url=check_correct_url(sys.argv[1])
         directory_to_download=sys.argv[2]
+        local_web_page="page.html"
+        local_html = os.path.join(directory_to_download, local_web_page)
+        web_page_url=check_correct_url(sys.argv[1])
         if os.path.isdir(directory_to_download) is not True:
             make_directory_for_download(directory_to_download)
             data_from_web_page = download_web_page_data(web_page_url)
             write_web_page_content_to_local_file(data_from_web_page, local_web_page,directory_to_download)
             download_images_from_web_page(directory_to_download, data_from_web_page,web_page_url)
+            change_local_html(local_html,directory_to_download)
         else:
             compare_web_page_content(web_page_url,directory_to_download,local_web_page)
     except:
@@ -36,7 +38,7 @@ def download_web_page_data(url):
     try:
         r=requests.get(url)
         r.encoding = 'utf-8'
-        data =r.text
+        data = r.text
         return data
     except:
         print("Nie je mozne nacitat obsah web stranky.")
@@ -85,9 +87,6 @@ def find_images_on_page(data):
         print("Nepodarilo sa najst obrazky na zadanej web stranke.")
         sys.exit()
 
-def replace_remote_images():
-    return
-
 def join_path(directory, output_file):
     path=os.path.normpath(output_file)
     return os.path.join(directory,output_file)
@@ -111,22 +110,43 @@ def base64_picture_download(picture_url, local_picture):
     with open(local_picture, 'wb') as picture_result:
         picture_result.write(picture_64_decode)
 
-def download_images_from_web_page(directory, data_from_web_page,url):    
+def download_images_from_web_page(directory, data_from_web_page,url): 
     try:
         images=find_images_on_page(data_from_web_page)
+        hidden_file,origin_file = store_data(directory)
         print("Stahujem obrazky. Cakajte prosim.")
-        for image in images:
-            image = check_picture_url(url, image)
-            picture_name=create_file_name(directory, image)
-            try:
-                if "base64" in image:
-                    base64_picture_download(image, picture_name)
-                else:
-                    urllib.request.urlretrieve(image, picture_name)
-            except (ValueError, urllib.error.URLError):
-                pass
+        with open(hidden_file, 'w') as hidden:
+            with open(origin_file, 'w') as origin:
+                for image in images:
+                    image = check_picture_url(url, image)
+                    picture_name=create_file_name(directory, image)
+                    hidden.write(picture_name + '\n')
+                    origin.write(image + '\n')
+                    try:
+                        if "base64" in image:
+                            base64_picture_download(image, picture_name)
+                        else:
+                            urllib.request.urlretrieve(image, picture_name)
+                    except (ValueError, urllib.error.URLError):
+                        pass
         print("Stahovanie obrazkov dokoncene.")
     except :
         print("Nedefinovana chyba pri stahovani obrazkov.")
+
+def store_data(directory):
+    file1 = os.path.join(directory, ".hidden_file")
+    file2 = os.path.join(directory, ".origin_file")
+    return (file1, file2)
+
+def change_local_html(html_file, directory):
+    input_file,output_file = store_data(directory)
+    with open(html_file, 'r') as result:
+        print ('Upravujem stiahnutu web stranku pre offline citanie.')
+        content = result.read()
+        with open(input_file, 'r') as input_data:
+            data_to_local_page = input_data.read()
+            with open(output_file, 'r') as output_data:
+                data_from_local_page = output_data.read()
+    return
 
 main()
