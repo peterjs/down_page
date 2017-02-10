@@ -1,4 +1,4 @@
-import urllib.request, sys, re, os, base64, difflib
+import urllib.request, sys, re, os, base64, difflib, requests
 
 def main():
     try:
@@ -32,21 +32,12 @@ def make_directory_for_download(directory):
         print("Nepodarilo sa vytvorit pozadovany adresar pre stiahnutie web stranky.")
         sys.exit()
          
-def open_web_page(url):
-    try:
-        request_to_page = urllib.request.Request(url)
-        return urllib.request.urlopen(request_to_page)
-    except:
-        print("Nepodarilo sa otvorit pozadovanu web stranku.")
-        sys.exit()
-
 def download_web_page_data(url):
     try:
-        content= open_web_page(url) 
-        try:
-            return content.read().decode('utf8')
-        except UnicodeDecodeError:
-            return content.read()
+        r=requests.get(url)
+        r.encoding = 'utf-8'
+        data =r.text
+        return data
     except:
         print("Nie je mozne nacitat obsah web stranky.")
         sys.exit()
