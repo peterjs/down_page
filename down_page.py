@@ -85,6 +85,9 @@ def find_images_on_page(data):
         print("Nepodarilo sa najst obrazky na zadanej web stranke.")
         sys.exit()
 
+def replace_remote_images():
+    return
+
 def join_path(directory, output_file):
     path=os.path.normpath(output_file)
     return os.path.join(directory,output_file)
