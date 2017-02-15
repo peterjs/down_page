@@ -1,7 +1,8 @@
 import urllib.request, sys, re, os, base64, difflib, requests
 
 def main():
-    try:
+    #try:
+    if True:
         directory_to_download=sys.argv[2]
         local_web_page="page.html"
         local_html = os.path.join(directory_to_download, local_web_page)
@@ -14,8 +15,8 @@ def main():
             change_local_html(local_html,directory_to_download)
         else:
             compare_web_page_content(web_page_url,directory_to_download,local_web_page)
-    except:
-           help_syntax()
+    #except:
+    #       help_syntax()
 
 def check_correct_url(url):
     if "http" not in url:
@@ -69,6 +70,7 @@ def compare_web_page_content(url,directory,destination):
             print("Ziadne zmeny. Obsah stiahnutej web stranky a jej online verzia sa zhoduju.")
         else:
             print("Doslo k zmene na web stranke.")
+            print(diff)
             if "img" in diff:
                 print("Zmena obrazku.")
             else:
@@ -134,22 +136,33 @@ def download_images_from_web_page(directory, data_from_web_page,url):
         print("Nedefinovana chyba pri stahovani obrazkov.")
 
 def store_data(directory):
-    file1 = os.path.join(directory, ".hidden_file")
-    file2 = os.path.join(directory, ".origin_file")
+    file1 = os.path.join(directory, ".hidden_file") #.local_img_urls
+    file2 = os.path.join(directory, ".origin_file") #.remote_img_urls
     return (file1, file2)
 
 def change_local_html(html_file, directory):
     input_file,output_file = store_data(directory)
     lines = []
     with open(input_file, 'r') as input_data:
-        data_to_local_page = input_data.read()
+        data_to_local_page = input_data.readlines()
         with open(output_file, 'r') as output_data:
-            data_from_local_page = output_data.read()
-        with open(html_file, 'r') as result:
-            print ('Upravujem stiahnutu web stranku pre offline citanie.')
-            for line in result:
-                lines.append(line)
-                if '<img' in line:
-                    pass
+            data_from_local_page = output_data.readlines()
+            with open(html_file, 'r') as result:
+                print ('Upravujem stiahnutu web stranku pre offline citanie.')
+                replaced_urls = g(result.read(), data_from_local_page, data_to_local_page)
+                print(replaced_urls)
+          
+def g(text_str, co_nahradit, cim_nahradit):
+    if len(co_nahradit) == len(cim_nahradit):
+        for img_urls in zip(co_nahradit[:], cim_nahradit[:]):
+            print("img_urls[0] ", img_urls[0][:-1])
+            print("img_urls[1] ", img_urls[1][:-1])
+            print("-----")
+            text_str = text_str.replace(img_urls[0][:-1], img_urls[1][:-1])
+            #print(text_str2)
+    return text_str
+          
+def f(html_file, co_nahradit, cim_nahradit):
+    return
 
 main()
