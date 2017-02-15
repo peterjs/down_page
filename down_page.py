@@ -141,15 +141,15 @@ def store_data(directory):
 def change_local_html(html_file, directory):
     input_file,output_file = store_data(directory)
     lines = []
-    with open(html_file, 'r') as result:
-        print ('Upravujem stiahnutu web stranku pre offline citanie.')
-        for line in result:
-            lines.append(line)
-            if '<img' in line:
-                print ('.')
-        with open(input_file, 'r') as input_data:
-            data_to_local_page = input_data.read()
-            with open(output_file, 'r') as output_data:
-                data_from_local_page = output_data.read()
+    with open(input_file, 'r') as input_data:
+        data_to_local_page = input_data.read()
+        with open(output_file, 'r') as output_data:
+            data_from_local_page = output_data.read()
+        with open(html_file, 'r') as result:
+            print ('Upravujem stiahnutu web stranku pre offline citanie.')
+            for line in result:
+                lines.append(line)
+                if '<img' in line:
+                    pass
 
 main()
